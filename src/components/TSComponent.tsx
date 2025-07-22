@@ -1,5 +1,7 @@
 export default function TSComponent() {
-  return (
-    <div>TSComponent</div>
-  )
+    return (
+        <div>
+            TSComponent
+        </div>
+    )
 }
