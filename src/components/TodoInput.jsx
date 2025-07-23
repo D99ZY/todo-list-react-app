@@ -1,7 +1,8 @@
 export default function TodoInput() {
     return (
-        <div>
-            TodoInput
-        </div>
+        <header>
+            <input placeholder="Enter todo list item..." />
+            <button>Add</button>
+        </header>
     )
 }
