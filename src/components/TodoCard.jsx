@@ -1,7 +1,3 @@
 export default function TodoCard() {
-    return (
-        <div>
-            TodoCard
-        </div>
-    )
+  return <div>TodoCard</div>;
 }

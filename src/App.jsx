@@ -1,14 +1,13 @@
-import TodoInput from "./components/TodoInput"
-import TodoList from "./components/TodoList"
+import TodoList from './components/TodoList';
+import TodoInput from './components/TodoInput';
 
 function App() {
-
-    return (
-        <>
-            <TodoInput />
-            <TodoList />
-        </>
-    )
+  return (
+    <>
+      <TodoInput />
+      <TodoList />
+    </>
+  );
 }
 
-export default App
+export default App;
