@@ -16,6 +16,13 @@
       "jsx": true
     }
   },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "moduleDirectory": ["node_modules", "./src"]
+      }
+    }
+  },
   "rules": {
     "react/react-in-jsx-scope": "off",
     "no-unused-vars": ["warn", { "varsIgnorePattern": "^[A-Z_]" }],
