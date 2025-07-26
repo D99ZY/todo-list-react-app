@@ -1,11 +1,11 @@
+import PropTypes from 'prop-types';
 import TodoCard from './TodoCard';
 
-export default function TodoList() {
-  const todoList = ['Task 1', 'Task 2', 'Task 3'];
-
+export default function TodoList(props) {
+  const { todos } = props;
   return (
     <ul className="main">
-      {todoList.map((todo) => {
+      {todos.map((todo) => {
         return (
           <TodoCard key={todo.id}>
             <p>{todo}</p>
@@ -15,3 +15,5 @@ export default function TodoList() {
     </ul>
   );
 }
+
+TodoList.propTypes = { todos: PropTypes.string.isRequired };
