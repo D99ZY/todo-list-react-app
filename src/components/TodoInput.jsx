@@ -3,7 +3,9 @@ import { useState } from 'react';
 
 export default function TodoInput(props) {
   const { handleAddTodos } = props;
+  const [todoId, setTodoId] = useState(0);
   const [todoValue, setTodoValue] = useState('');
+
   return (
     <header>
       <input
@@ -16,7 +18,9 @@ export default function TodoInput(props) {
       <button
         type="button"
         onClick={() => {
-          handleAddTodos(todoValue);
+          handleAddTodos({ id: todoId, text: todoValue });
+          setTodoId(todoId + 1);
+          setTodoValue('');
         }}
       >
         Add
