@@ -1,26 +1,22 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 
 export default function TodoInput(props) {
-  const { handleAddTodos } = props;
-  const [todoId, setTodoId] = useState(0);
-  const [todoValue, setTodoValue] = useState('');
+  const { todoItem, setTodoItem, handleAddTodos } = props;
 
   return (
     <header>
       <input
-        value={todoValue}
+        value={todoItem.value}
         onChange={(e) => {
-          setTodoValue(e.target.value);
+          setTodoItem({ ...todoItem, value: e.target.value });
         }}
         placeholder="Enter todo..."
       />
       <button
         type="button"
         onClick={() => {
-          handleAddTodos({ id: todoId, text: todoValue });
-          setTodoId(todoId + 1);
-          setTodoValue('');
+          handleAddTodos({ id: todoItem.id, value: todoItem.value });
+          setTodoItem({ ...todoItem, id: todoItem.id + 1, value: '' });
         }}
       >
         Add
@@ -29,4 +25,11 @@ export default function TodoInput(props) {
   );
 }
 
-TodoInput.propTypes = { handleAddTodos: PropTypes.func.isRequired };
+TodoInput.propTypes = {
+  todoItem: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    value: PropTypes.string.isRequired,
+  }).isRequired,
+  setTodoItem: PropTypes.func.isRequired,
+  handleAddTodos: PropTypes.func.isRequired,
+};

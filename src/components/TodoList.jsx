@@ -2,18 +2,26 @@ import PropTypes from 'prop-types';
 import TodoCard from './TodoCard';
 
 export default function TodoList(props) {
-  const { todos, handleDeleteTodo } = props;
+  const { todoList, handleEditTodo, handleDeleteTodo } = props;
 
   return (
     <ul className="main">
-      {todos.map((todo) => {
-        return <TodoCard key={todo.id} todo={todo} handleDeleteTodo={handleDeleteTodo} />;
+      {todoList.map((todoItem) => {
+        return (
+          <TodoCard
+            key={todoItem.id}
+            todoItem={todoItem}
+            handleEditTodo={handleEditTodo}
+            handleDeleteTodo={handleDeleteTodo}
+          />
+        );
       })}
     </ul>
   );
 }
 
 TodoList.propTypes = {
-  todos: PropTypes.string.isRequired,
+  todoList: PropTypes.string.isRequired,
+  handleEditTodo: PropTypes.func.isRequired,
   handleDeleteTodo: PropTypes.func.isRequired,
 };

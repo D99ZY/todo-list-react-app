@@ -3,29 +3,44 @@ import TodoList from './components/TodoList';
 import TodoInput from './components/TodoInput';
 
 function App() {
-  const [todos, setTodos] = useState([]);
+  const [todoList, setTodoList] = useState([]);
+  const [todoItem, setTodoItem] = useState({ id: 0, value: '' });
 
-  const handleAddTodos = useCallback((newTodo) => {
-    setTodos((prevTodos) => [...prevTodos, newTodo]);
-  }, []);
+  const handleAddTodos = useCallback(
+    (newTodo) => {
+      setTodoList((prevTodoList) => [...prevTodoList, newTodo]);
+      console.log(todoItem);
+    },
+    [todoItem]
+  );
 
   const handleDeleteTodo = useCallback(
-    (id) => {
-      setTodos(
-        todos.filter((todo) => {
-          return todo.id !== id;
+    (todo) => {
+      setTodoList(
+        todoList.filter((item) => {
+          return item.id !== todo.id;
         })
       );
     },
-    [todos]
+    [todoList]
   );
 
-  const handleEditTodo = useCallback((index) => {}, []);
+  const handleEditTodo = useCallback(
+    (todo) => {
+      setTodoItem({ ...todo, id: todoItem.id, value: todo.value });
+      handleDeleteTodo(todo);
+    },
+    [todoItem.id, handleDeleteTodo]
+  );
 
   return (
     <>
-      <TodoInput handleAddTodos={handleAddTodos} />
-      <TodoList todos={todos} handleDeleteTodo={handleDeleteTodo} />
+      <TodoInput todoItem={todoItem} setTodoItem={setTodoItem} handleAddTodos={handleAddTodos} />
+      <TodoList
+        todoList={todoList}
+        handleEditTodo={handleEditTodo}
+        handleDeleteTodo={handleDeleteTodo}
+      />
     </>
   );
 }
