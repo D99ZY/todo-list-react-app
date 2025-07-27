@@ -25,4 +25,4 @@ export default function TodoInput(props) {
   );
 }
 
-// TodoInput.propTypes = { todos: PropTypes.string.isRequired };
+TodoInput.propTypes = { handleAddTodos: PropTypes.func.isRequired };
