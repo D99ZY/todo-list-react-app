@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import TodoList from './components/TodoList';
 import TodoInput from './components/TodoInput';
 
@@ -6,12 +6,16 @@ function App() {
   const [todoList, setTodoList] = useState([]);
   const [todoItem, setTodoItem] = useState({ id: 0, value: '' });
 
+  const persistData = useCallback(() => {
+    localStorage.setItem('todoList', JSON.stringify({ todoList }));
+  }, [todoList]);
+
   const handleAddTodos = useCallback(
     (newTodo) => {
       setTodoList((prevTodoList) => [...prevTodoList, newTodo]);
-      console.log(todoItem);
+      persistData();
     },
-    [todoItem]
+    [persistData]
   );
 
   const handleDeleteTodo = useCallback(
@@ -21,17 +25,29 @@ function App() {
           return item.id !== todo.id;
         })
       );
+      persistData();
     },
-    [todoList]
+    [persistData, todoList]
   );
 
   const handleEditTodo = useCallback(
     (todo) => {
       setTodoItem({ ...todo, id: todoItem.id, value: todo.value });
       handleDeleteTodo(todo);
+      persistData();
     },
-    [todoItem.id, handleDeleteTodo]
+    [todoItem.id, handleDeleteTodo, persistData]
   );
+
+  useEffect(() => {
+    if (localStorage) {
+      let localTodoList = localStorage.getItem('todoList');
+      if (localTodoList) {
+        localTodoList = JSON.parse(localTodoList).todoList;
+        setTodoList(localTodoList);
+      }
+    }
+  }, []);
 
   return (
     <>
