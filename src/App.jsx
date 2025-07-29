@@ -41,10 +41,18 @@ function App() {
 
   useEffect(() => {
     if (localStorage) {
-      let localTodoList = localStorage.getItem('todoList');
+      const localTodoList = localStorage.getItem('todoList');
+      console.log(localTodoList);
       if (localTodoList) {
-        localTodoList = JSON.parse(localTodoList).todoList;
-        setTodoList(localTodoList);
+        const parsedLocalTodoList = JSON.parse(localTodoList).todoList;
+        console.log(`parsedLocalTodoList: ${JSON.stringify(parsedLocalTodoList)}`);
+        setTodoList(parsedLocalTodoList);
+        const myId = parsedLocalTodoList.at(-1).id;
+        console.log(`myId: ${myId}`);
+        setTodoItem({ id: myId + 1, value: '' });
+        console.log(`todoItem: ${JSON.stringify(todoItem)}`);
+        // localTodoList = JSON.parse(localTodoList).todoList;
+        // setTodoList(localTodoList);
       }
     }
   }, []);
