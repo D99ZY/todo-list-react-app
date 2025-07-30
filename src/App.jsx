@@ -7,16 +7,18 @@ function App() {
   const [todoItem, setTodoItem] = useState({ id: 0, value: '' });
 
   const persistData = useCallback(() => {
-    localStorage.setItem('todoList', JSON.stringify({ todoList }));
+    if (todoList.length !== 0) {
+      localStorage.setItem('todoList', JSON.stringify({ todoList }));
+    }
   }, [todoList]);
 
-  const handleAddTodos = useCallback(
-    (newTodo) => {
-      setTodoList((prevTodoList) => [...prevTodoList, newTodo]);
-      persistData();
-    },
-    [persistData]
-  );
+  useEffect(() => {
+    persistData();
+  }, [persistData, todoList]);
+
+  const handleAddTodos = useCallback((newTodo) => {
+    setTodoList((prevTodoList) => [...prevTodoList, newTodo]);
+  }, []);
 
   const handleDeleteTodo = useCallback(
     (todo) => {
@@ -25,32 +27,28 @@ function App() {
           return item.id !== todo.id;
         })
       );
-      persistData();
     },
-    [persistData, todoList]
+    [todoList]
   );
 
   const handleEditTodo = useCallback(
     (todo) => {
       setTodoItem({ ...todo, id: todoItem.id, value: todo.value });
       handleDeleteTodo(todo);
-      persistData();
     },
-    [todoItem.id, handleDeleteTodo, persistData]
+    [todoItem.id, handleDeleteTodo]
   );
 
   useEffect(() => {
     if (localStorage) {
       const localTodoList = localStorage.getItem('todoList');
-      console.log(localTodoList);
       if (localTodoList) {
         const parsedLocalTodoList = JSON.parse(localTodoList).todoList;
-        console.log(`parsedLocalTodoList: ${JSON.stringify(parsedLocalTodoList)}`);
-        setTodoList(parsedLocalTodoList);
-        const myId = parsedLocalTodoList.at(-1).id;
-        console.log(`myId: ${myId}`);
-        setTodoItem({ id: myId + 1, value: '' });
-        console.log(`todoItem: ${JSON.stringify(todoItem)}`);
+        if (parsedLocalTodoList.length !== 0) {
+          setTodoList(parsedLocalTodoList);
+          const myId = parsedLocalTodoList.at(-1).id;
+          setTodoItem({ id: myId + 1, value: '' });
+        }
         // localTodoList = JSON.parse(localTodoList).todoList;
         // setTodoList(localTodoList);
       }
