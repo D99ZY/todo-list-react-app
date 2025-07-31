@@ -3,20 +3,31 @@ import PropTypes from 'prop-types';
 export default function TodoInput(props) {
   const { todoItem, setTodoItem, handleAddTodos } = props;
 
+  const handleAdd = () => {
+    if (todoItem.value.trim() !== '') {
+      handleAddTodos({ id: todoItem.id, value: todoItem.value });
+      setTodoItem({ ...todoItem, id: todoItem.id + 1, value: '' });
+    }
+  };
+
   return (
     <header>
       <input
+        placeholder="Enter todo..."
         value={todoItem.value}
         onChange={(e) => {
           setTodoItem({ ...todoItem, value: e.target.value });
         }}
-        placeholder="Enter todo..."
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            handleAdd();
+          }
+        }}
       />
       <button
         type="button"
         onClick={() => {
-          handleAddTodos({ id: todoItem.id, value: todoItem.value });
-          setTodoItem({ ...todoItem, id: todoItem.id + 1, value: '' });
+          handleAdd();
         }}
       >
         Add
