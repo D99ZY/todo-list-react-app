@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import TodoList from './components/TodoList';
 import TodoInput from './components/TodoInput';
 
 function App() {
   const [todoList, setTodoList] = useState([]);
   const [todoItem, setTodoItem] = useState({ id: 0, value: '' });
+  const inputRef = useRef(null);
 
   const persistData = useCallback(() => {
     if (todoList.length !== 0) {
@@ -35,6 +36,9 @@ function App() {
     (todo) => {
       setTodoItem({ ...todo, id: todoItem.id, value: todo.value });
       handleDeleteTodo(todo);
+      setTimeout(() => {
+        inputRef.current?.focusInput();
+      }, 0);
     },
     [todoItem.id, handleDeleteTodo]
   );
@@ -49,15 +53,18 @@ function App() {
           const myId = parsedLocalTodoList.at(-1).id;
           setTodoItem({ id: myId + 1, value: '' });
         }
-        // localTodoList = JSON.parse(localTodoList).todoList;
-        // setTodoList(localTodoList);
       }
     }
   }, []);
 
   return (
     <>
-      <TodoInput todoItem={todoItem} setTodoItem={setTodoItem} handleAddTodos={handleAddTodos} />
+      <TodoInput
+        ref={inputRef}
+        todoItem={todoItem}
+        setTodoItem={setTodoItem}
+        handleAddTodos={handleAddTodos}
+      />
       <TodoList
         todoList={todoList}
         handleEditTodo={handleEditTodo}
