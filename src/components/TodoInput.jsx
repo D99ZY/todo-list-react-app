@@ -3,8 +3,11 @@ import { forwardRef, useImperativeHandle, useRef } from 'react';
 
 const TodoInput = forwardRef((props, ref) => {
   const { todoItem, setTodoItem, handleAddTodos } = props;
+
+  // Ref to the actual <input> DOM element
   const inputRef = useRef(null);
 
+  // Adds the current todo to the list and clears the input
   const handleAdd = () => {
     if (todoItem.value.trim() !== '') {
       handleAddTodos({ id: todoItem.id, value: todoItem.value });
@@ -12,11 +15,13 @@ const TodoInput = forwardRef((props, ref) => {
     }
   };
 
+  // Expose focusInput function to parent via ref
   useImperativeHandle(ref, () => ({
     focusInput: () => {
       const inputField = inputRef.current;
       if (inputField) {
         inputField.focus();
+        // Move cursor to end of text
         inputField.setSelectionRange(inputField.value.length, inputField.value.length);
       }
     },
